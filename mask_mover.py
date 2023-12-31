@@ -2,18 +2,16 @@ import cv2
 import numpy as np
 import json
 
-def move_mask(target_image_path, mask_points_path, res_path):
+def move_mask(target_image_path, mask_points, res_path):
     # Load the target image
     target_image = cv2.imread(target_image_path)
-    with open(mask_points_path, 'r') as file:
-        mask_points = json.load(file)
 
     # Convert mask_points to a numpy array
     mask_points = np.array(mask_points, dtype=np.int32)
 
     # Initialize mask position (offsets)
     dx, dy = 0, 0
-
+    
     while True:
         # Create a copy of the target image to work with
         display_image = target_image.copy()
@@ -29,7 +27,7 @@ def move_mask(target_image_path, mask_points_path, res_path):
         result_image = cv2.bitwise_and(display_image, inverted_mask)
 
         # Show the result in a window
-        cv2.imshow("Real-Time Mask Movement", result_image)
+        cv2.imshow("W,A,S,D  - Move Mask, Q - Save Mask", result_image)
 
         # Capture key press events
         key = cv2.waitKey(1) & 0xFF
